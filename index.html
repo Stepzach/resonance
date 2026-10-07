@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#121212" />
+  <meta name="description" content="resonance — different platform, same frequency. Shared playlists and friend-to-friend music discovery." />
+  <title>resonance — different platform, same frequency.</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div id="toast-root" class="toast-root" aria-live="polite"></div>
+
+  <section id="auth-view" class="auth-view">
+    <div class="auth-visual">
+      <div class="brand-mark large">R</div>
+      <div>
+        <p class="eyebrow">resonance</p>
+        <h1>Different platform.<br>Same frequency.</h1>
+        <p class="auth-subcopy">Shared playlists and music suggestions for the people you trust with the aux. Search once, listen anywhere, and always know who added what.</p>
+      </div>
+      <div class="mock-stack" aria-hidden="true">
+        <div class="mock-card card-a"><span>♪</span><div><b>Late Night Drive</b><small>Shared with 4 friends</small></div></div>
+        <div class="mock-card card-b"><span>＋</span><div><b>New suggestion</b><small>From @maya</small></div></div>
+      </div>
+    </div>
+
+    <div class="auth-panel">
+      <div class="auth-box">
+        <div class="auth-brand"><div class="brand-mark">R</div><div class="brand-lockup"><strong>resonance</strong><small>different platform, same frequency.</small></div></div>
+        <div class="auth-tabs" role="tablist">
+          <button id="show-signin" class="tab-btn active" type="button">Sign in</button>
+          <button id="show-signup" class="tab-btn" type="button">Create account</button>
+        </div>
+
+        <form id="signin-form" class="auth-form">
+          <label>Email<input id="signin-email" type="email" autocomplete="email" required placeholder="you@example.com"></label>
+          <label>Password<input id="signin-password" type="password" autocomplete="current-password" required minlength="6" placeholder="••••••••"></label>
+          <button class="primary-btn full" type="submit">Sign in</button>
+        </form>
+
+        <form id="signup-form" class="auth-form hidden">
+          <div class="avatar-picker-row">
+            <label class="avatar-picker" for="signup-avatar" title="Choose a profile picture">
+              <img id="signup-avatar-preview" alt="Profile preview" class="hidden" />
+              <span id="signup-avatar-placeholder">＋</span>
+            </label>
+            <div><b>Profile picture</b><small>Optional · compressed in your browser</small></div>
+            <input id="signup-avatar" class="sr-only" type="file" accept="image/*" />
+          </div>
+          <label>Name<input id="signup-name" type="text" autocomplete="name" required maxlength="40" placeholder="Alex Smith"></label>
+          <label>Handle<div class="input-prefix"><span>@</span><input id="signup-handle" type="text" required minlength="3" maxlength="20" pattern="[A-Za-z0-9_]+" placeholder="alex"></div></label>
+          <label>Email<input id="signup-email" type="email" autocomplete="email" required placeholder="you@example.com"></label>
+          <label>Password<input id="signup-password" type="password" autocomplete="new-password" required minlength="6" placeholder="At least 6 characters"></label>
+          <button class="primary-btn full" type="submit">Create account</button>
+          <p class="fine-print">Your email stays in Firebase Authentication. Friend search uses only your name and @handle.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <div id="app-view" class="app-shell hidden">
+    <aside class="sidebar">
+      <div class="sidebar-brand"><div class="brand-mark">R</div><div class="brand-lockup"><span>resonance</span><small>different platform, same frequency.</small></div></div>
+      <nav class="nav-list" aria-label="Main navigation">
+        <button class="nav-item active" data-page="home"><span>⌂</span>Home</button>
+        <button class="nav-item" data-page="playlists"><span>♫</span>Playlists</button>
+        <button class="nav-item" data-page="friends"><span>♙</span>Friends <em id="friend-badge" class="nav-badge hidden">0</em></button>
+      </nav>
+      <div class="sidebar-bottom">
+        <button id="settings-btn" class="nav-item subtle"><span>⚙</span>Settings</button>
+        <button id="signout-btn" class="user-chip">
+          <img id="sidebar-avatar" class="avatar" alt="Your profile">
+          <span><b id="sidebar-name">You</b><small id="sidebar-handle">@you</small></span>
+          <span class="signout-glyph">↗</span>
+        </button>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow" id="page-eyebrow">For you</p>
+          <h2 id="page-title">Home</h2>
+        </div>
+        <button id="mobile-menu-btn" class="icon-btn mobile-only" aria-label="Open navigation">☰</button>
+      </header>
+
+      <section id="page-home" class="page active">
+        <div class="hero-card">
+          <div>
+            <span class="pill">Shared listening, without the platform walls</span>
+            <h3>Your people. Your music. One frequency.</h3>
+            <p>Search millions of tracks, build playlists together, and send the right song to one friend or the whole group.</p>
+          </div>
+          <button id="hero-search-focus" class="secondary-btn">Suggest a song</button>
+        </div>
+
+        <div class="section-head">
+          <div><h3>Recently suggested by friends</h3><p>Songs your friends thought you should hear.</p></div>
+        </div>
+        <div id="recent-suggestions" class="suggestion-grid"></div>
+        <div id="suggestion-empty" class="empty-state hidden"><span>♫</span><h4>No suggestions yet</h4><p>Add friends and ask them to send you something good.</p></div>
+
+        <div class="section-head suggest-head">
+          <div><h3>Suggest a song</h3><p>Search, choose friends, then send it.</p></div>
+        </div>
+        <div class="search-panel">
+          <div class="search-row">
+            <label class="search-box"><span>⌕</span><input id="suggest-search" type="search" placeholder="Search song, artist or album" autocomplete="off"></label>
+            <button id="suggest-target-btn" class="target-btn" type="button"><span id="suggest-target-label">Choose friends</span><b>⌄</b></button>
+          </div>
+          <div id="suggest-target-menu" class="target-menu hidden"></div>
+          <div id="suggest-search-status" class="search-status">Search for a song to suggest.</div>
+          <div id="suggest-search-results" class="track-results"></div>
+        </div>
+      </section>
+
+      <section id="page-playlists" class="page">
+        <div class="section-head top-section">
+          <div><h3>Your playlists</h3><p>Shared spaces for songs worth keeping.</p></div>
+          <button id="new-playlist-btn" class="primary-btn">＋ New playlist</button>
+        </div>
+        <div id="playlist-grid" class="playlist-grid"></div>
+        <div id="playlist-empty" class="empty-state hidden"><span>♫</span><h4>No playlists yet</h4><p>Create one and invite a friend to start adding tracks.</p><button id="empty-new-playlist" class="secondary-btn">Create playlist</button></div>
+      </section>
+
+      <section id="page-playlist-detail" class="page">
+        <button id="back-playlists" class="back-btn">← Back to playlists</button>
+        <div class="playlist-header-card">
+          <div id="playlist-art" class="playlist-art">♫</div>
+          <div class="playlist-header-copy">
+            <span class="pill">Collaborative playlist</span>
+            <h3 id="playlist-detail-name">Playlist</h3>
+            <p id="playlist-detail-meta">0 songs · 1 member</p>
+            <div id="playlist-members" class="avatar-stack"></div>
+          </div>
+        </div>
+
+        <div class="search-panel compact">
+          <div class="section-head mini"><div><h3>Add songs</h3><p>Search the catalog and add a track with one click.</p></div></div>
+          <label class="search-box"><span>⌕</span><input id="playlist-search" type="search" placeholder="Search song, artist or album" autocomplete="off"></label>
+          <div id="playlist-search-status" class="search-status">Search for a song to add.</div>
+          <div id="playlist-search-results" class="track-results"></div>
+        </div>
+
+        <div class="section-head"><div><h3>Tracks</h3><p>Everyone can see who added what.</p></div></div>
+        <div id="playlist-tracks" class="playlist-track-list"></div>
+        <div id="playlist-track-empty" class="empty-state small hidden"><span>＋</span><h4>Add the first song</h4><p>Use the search above to get this playlist started.</p></div>
+      </section>
+
+      <section id="page-friends" class="page">
+        <div class="section-head top-section"><div><h3>Friends</h3><p>Find people by name or @handle.</p></div></div>
+        <div class="friend-search-card">
+          <label class="search-box"><span>⌕</span><input id="friend-search" type="search" placeholder="Search name or @handle" autocomplete="off"></label>
+          <div id="friend-search-results" class="friend-results"></div>
+        </div>
+
+        <div id="incoming-section">
+          <div class="section-head mini"><div><h3>Requests</h3><p>People who want to connect.</p></div></div>
+          <div id="incoming-requests" class="friend-list"></div>
+        </div>
+
+        <div class="section-head mini"><div><h3>Your friends</h3><p>People you can invite and suggest songs to.</p></div></div>
+        <div id="friends-list" class="friend-list"></div>
+        <div id="friends-empty" class="empty-state small hidden"><span>♙</span><h4>No friends yet</h4><p>Search above and send your first request.</p></div>
+      </section>
+    </main>
+  </div>
+
+  <dialog id="playlist-dialog" class="modal">
+    <form id="playlist-form" method="dialog">
+      <div class="modal-head"><div><p class="eyebrow">New playlist</p><h3>Create together</h3></div><button class="icon-btn" value="cancel" formmethod="dialog" aria-label="Close">×</button></div>
+      <label>Playlist name<input id="playlist-name" type="text" required maxlength="60" placeholder="Sunday kitchen songs"></label>
+      <fieldset><legend>Invite friends</legend><div id="playlist-friend-options" class="check-list"></div></fieldset>
+      <div class="modal-actions"><button class="secondary-btn" value="cancel" formmethod="dialog">Cancel</button><button id="create-playlist-submit" class="primary-btn" type="submit" value="default">Create playlist</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="settings-dialog" class="modal">
+    <form id="settings-form" method="dialog">
+      <div class="modal-head"><div><p class="eyebrow">Preferences</p><h3>Music app</h3></div><button class="icon-btn" value="cancel" formmethod="dialog" aria-label="Close">×</button></div>
+      <p class="modal-copy">Choose where the + button should open tracks. resonance uses a provider link; saving directly to a library requires that provider’s OAuth/API permission.</p>
+      <div class="provider-options">
+        <label><input type="radio" name="provider" value="spotify"><span><b>Spotify</b><small>Open Spotify search</small></span></label>
+        <label><input type="radio" name="provider" value="apple"><span><b>Apple Music</b><small>Open Apple Music track/search</small></span></label>
+        <label><input type="radio" name="provider" value="youtube"><span><b>YouTube Music</b><small>Open YouTube Music search</small></span></label>
+      </div>
+      <div class="modal-actions"><button class="secondary-btn" value="cancel" formmethod="dialog">Cancel</button><button class="primary-btn" type="submit" value="default">Save</button></div>
+    </form>
+  </dialog>
+
+  <audio id="preview-audio" preload="none"></audio>
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>
